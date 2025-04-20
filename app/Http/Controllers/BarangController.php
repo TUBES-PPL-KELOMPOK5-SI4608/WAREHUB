@@ -6,17 +6,17 @@ use Illuminate\Http\Request;
 use App\Models\inventory;
 use Illuminate\Support\Facades\Storage;
 
-
 class BarangController extends Controller
 {
     public function index(Request $request)
     {
-        $query = inventory::query();
+        $query = \DB::table('inventories')
+        ->join('vendors', 'inventories.id_vendor', '=', 'vendors.id')
+        ->select('inventories.*', 'vendors.name as vendor_name');
 
         if ($request->filled('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%');
+            $query->where('inventories.name', 'like', '%' . $request->search . '%');
         }
-
 
         // Ambil semua data hasil filter/search
         $barangs = $query->get();
@@ -72,8 +72,8 @@ class BarangController extends Controller
     // Tampilkan form edit barang
     public function edit($id)
     {
-        $barang = Barang::findOrFail($id);
-        return view('barangs.edit', compact('barang'));
+        $barang = inventory::findOrFail($id);
+        return view('kelolaBarang.edit', compact('barang'));
     }
 
     // Update data barang

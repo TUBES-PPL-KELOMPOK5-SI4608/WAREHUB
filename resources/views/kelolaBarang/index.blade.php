@@ -26,27 +26,16 @@
         </button>
     </form>
 
-    @if(request('search') || request('kategori'))
-        <div class="mb-4 text-sm text-gray-600">
-            Menampilkan hasil untuk:
-            @if(request('search'))
-                <strong>Nama</strong>: "{{ request('search') }}"
-            @endif
-            @if(request('kategori'))
-                <strong>Kategori</strong>: "{{ request('kategori') }}"
-            @endif
-        </div>
-    @endif
+
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         @foreach ($barangs as $barang)
             <div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition">
-                <h3 class="text-xl font-semibold text-blue-700">{{ $barang->nama_barang }}</h3>
-                <p class="text-sm text-gray-500 mt-1 mb-3">Kategori: {{ $barang->kategori ?? '-' }}</p>
-
+                <h3 class="text-xl font-semibold text-blue-700">{{ $barang->name }}</h3>
+                <br>
                 <div class="text-sm text-gray-600 mb-2">
-                    <p><strong>Stok:</strong> {{ $barang->stok }}</p>
-                    <p><strong>Harga:</strong> Rp{{ number_format($barang->harga, 2, ',', '.') }}</p>
+                    <p><strong>Deskripsi:</strong> {{ $barang->description }}</p>
+                    <p><strong>vendor:</strong> {{ $barang->vendor_name }}</p>
                 </div>
 
                 <div class="flex justify-between mt-4">
