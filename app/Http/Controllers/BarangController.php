@@ -80,10 +80,13 @@ class BarangController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama_barang' => 'required',
-            'kategori' => 'nullable',
-            'stok' => 'required|integer',
-            'harga' => 'required|numeric',
+            'name' => $data['name'],
+            'description' => $data['description'] ?? null,
+            'identifier' => $data['identifier'],
+            'id_vendor' => $data['vendor'],
+            'picture_1' => $picture1Path,
+            'picture_2' => $picture2Path,
+            'created_with' => 'fia'
         ]);
 
         $barang = Barang::findOrFail($id);
