@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('picture_1')->nullable(); 
             $table->string('picture_2')->nullable(); 
             $table->text('description')->nullable(); 
-            $table->string('identifier')->unique();  
+            $table->string('identifier');  
             $table->timestamps(); 
 
             $table->unsignedBigInteger('id_vendor');
