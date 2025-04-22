@@ -7,11 +7,12 @@ use App\Models\Vendor;
 
 class VendorController extends Controller
 {
-    public function index()
+        public function index()
     {
-        $vendors = Vendor::all();
-        return view('vendors.index', compact('vendors'));
+        $vendors = Vendor::all(); // ambil semua data vendor
+        return view('vendors.index', compact('vendors')); // kirim ke view
     }
+
 
     public function create()
     {

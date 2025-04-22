@@ -7,6 +7,14 @@
             Daftar Vendor
         </div>
         <div class="card-body">
+
+            {{-- Tampilkan pesan sukses --}}
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
             <a href="{{ route('vendors.create') }}" class="btn btn-success mb-3">+ Tambah Vendor Baru</a>
 
             <table class="table table-bordered table-hover">
@@ -15,7 +23,7 @@
                         <th style="width: 50px">No</th>
                         <th style="width: 500px">Nama Vendor</th>
                         <th style="width: 500px">Kontak</th>
-                        <th style="width: 120px;">Aksi</th>
+                        <th style="width: 150px;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -25,8 +33,12 @@
                             <td>{{ $vendor->name }}</td>
                             <td>{{ $vendor->contact }}</td>
                             <td>
-                                <a href="{{ route('vendors.edit', $vendor->id) }}" class="btn btn-sm btn-warning mr-3">Edit</a>
-                                <a href="{{ route('vendors.destroy', $vendor->id) }}" class="btn btn-sm btn-danger ml-3">Hapus</a>
+                                <a href="{{ route('vendors.edit', $vendor->id) }}" class="btn btn-sm btn-warning mb-1">Edit</a>
+                                <form action="{{ route('vendors.destroy', $vendor->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus vendor ini?')">Hapus</button>
+                                </form>
                             </td>
                         </tr>
                     @empty
