@@ -1,16 +1,18 @@
-// app/Http/Controllers/VendorController.php
+<?php
+
 namespace App\Http\Controllers;
 
-use App\Models\Vendor;
 use Illuminate\Http\Request;
+use App\Models\Vendor;
 
 class VendorController extends Controller
 {
-    public function index()
+        public function index()
     {
-        $vendors = Vendor::all();
-        return view('vendors.index', compact('vendors'));
+        $vendors = Vendor::all(); // ambil semua data vendor
+        return view('vendors.index', compact('vendors')); // kirim ke view
     }
+
 
     public function create()
     {
@@ -19,43 +21,42 @@ class VendorController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:vendors',
-            'phone' => 'required',
-            'address' => 'required',
+        Vendor::create([
+            'name' => $request->name,
+            'contact' => $request->contact
         ]);
 
-        Vendor::create($request->all());
-        return redirect()->route('vendors.index')->with('success', 'Vendor created successfully.');
+        return redirect()->route('vendors.index')->with('success', 'Vendor berhasil ditambahkan.');
     }
 
-    public function show(Vendor $vendor)
-    {
-        return view('vendors.show', compact('vendor'));
-    }
-
+    // Menampilkan form edit
     public function edit(Vendor $vendor)
     {
         return view('vendors.edit', compact('vendor'));
     }
 
+    // Menyimpan hasil update
     public function update(Request $request, Vendor $vendor)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:vendors,email,' . $vendor->id,
-            'phone' => 'required',
-            'address' => 'required',
+        $vendor->update([
+            'name' => $request->name,
+            'contact' => $request->contact
         ]);
 
-        $vendor->update($request->all());
-        return redirect()->route('vendors.index')->with('success', 'Vendor updated successfully.');
+        return redirect()->route('vendors.index')->with('success', 'Vendor berhasil diperbarui.');
+    }
+    public function destroy($id)
+    {
+        $vendor = Vendor::findOrFail($id);
+        $vendor->delete();
+
+        return redirect()->route('vendors.index' )->with('success', 'Vendor berhasil dihapus.');
     }
 
-    public function destroy(Vendor $vendor)
+    public function show($id)
     {
-        $vendor->delete();
-        return redirect()->route('vendors.index')->with('success', 'Vendor deleted successfully.');
+        $vendor = Vendor::findOrFail($id);
+        return view('vendors.index', compact('vendor'));
     }
+
 }
