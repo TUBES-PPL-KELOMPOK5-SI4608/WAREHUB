@@ -2,16 +2,26 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class inventory extends Model
+class Inventory extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'name',
-        'picture_1',
-        'picture_2',
         'description',
         'identifier',
         'id_vendor',
+        'picture_1',
+        'picture_2',
+        'created_with'
     ];
+
+    // Relasi ke Vendor
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class, 'id_vendor');
+    }
 }

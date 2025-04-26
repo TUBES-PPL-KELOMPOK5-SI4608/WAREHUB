@@ -15,27 +15,47 @@
             </div>
         @endif
 
-        <form action="{{ route('barangs.update', $barang->id) }}" method="POST">
+        <form action="{{ route('barangs.update', $barang->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block mb-1 text-sm font-medium text-gray-700">Nama Barang:</label>
-                    <input type="text" name="nama_barang" value="{{ old('nama_barang', $barang->nama_barang) }}" class="w-full border rounded px-3 py-2" required>
+                    <input type="text" name="name" value="{{ old('name', $barang->name) }}" class="w-full border rounded px-3 py-2" required>
                 </div>
                 <div>
-                    <label class="block mb-1 text-sm font-medium text-gray-700">Kategori:</label>
-                    <input type="text" name="kategori" value="{{ old('kategori', $barang->kategori) }}" class="w-full border rounded px-3 py-2">
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Identifier:</label>
+                    <input type="text" name="identifier" value="{{ old('identifier', $barang->identifier) }}" class="w-full border rounded px-3 py-2" required>
                 </div>
-                <div>
-                    <label class="block mb-1 text-sm font-medium text-gray-700">Stok:</label>
-                    <input type="number" name="stok" value="{{ old('stok', $barang->stok) }}" class="w-full border rounded px-3 py-2" required>
+                <div class="md:col-span-2">
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Deskripsi:</label>
+                    <textarea name="description" rows="4" class="w-full border rounded px-3 py-2">{{ old('description', $barang->description) }}</textarea>
                 </div>
-                <div>
-                    <label class="block mb-1 text-sm font-medium text-gray-700">Harga:</label>
-                    <input type="number" step="0.01" name="harga" value="{{ old('harga', $barang->harga) }}" class="w-full border rounded px-3 py-2" required>
+                <div class="md:col-span-2">
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Vendor:</label>
+                    <input type="text" name="id_vendor" value="{{ old('id_vendor', $barang->id_vendor) }}" class="w-full border rounded px-3 py-2" required>
                 </div>
+            </div>
+
+            <div class="mt-6">
+                <label class="block mb-2 text-sm font-medium text-gray-700">Foto Barang 1 (optional):</label>
+                @if ($barang->picture_1)
+                    <img src="{{ asset('storage/' . $barang->picture_1) . '?' . time() }}" 
+                         alt="Gambar Barang 1" 
+                         class="w-32 h-32 object-cover rounded mb-2">
+                @endif
+                <input type="file" name="picture_1" class="block w-full text-sm text-gray-600">
+            </div>
+
+            <div class="mt-4">
+                <label class="block mb-2 text-sm font-medium text-gray-700">Foto Barang 2 (optional):</label>
+                @if ($barang->picture_2)
+                    <img src="{{ asset('storage/' . $barang->picture_2) . '?' . time() }}" 
+                         alt="Gambar Barang 2" 
+                         class="w-32 h-32 object-cover rounded mb-2">
+                @endif
+                <input type="file" name="picture_2" class="block w-full text-sm text-gray-600">
             </div>
 
             <div class="mt-8 flex gap-4">
