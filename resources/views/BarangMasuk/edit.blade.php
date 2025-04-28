@@ -22,21 +22,36 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block mb-1 text-sm font-medium text-gray-700">Nama Barang:</label>
-                    <input type="text" name="nama_barang" value="{{ old('nama_barang', $barang->nama_barang) }}" class="w-full border rounded px-3 py-2" required>
+                    <input type="text" name="nama_barang" value="{{ old('nama_barang', $barang->name) }}" class="w-full border rounded px-3 py-2" required>
                 </div>
                 <div>
-                    <label class="block mb-1 text-sm font-medium text-gray-700">Kategori:</label>
-                    <input type="text" name="kategori" value="{{ old('kategori', $barang->kategori) }}" class="w-full border rounded px-3 py-2">
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Deskripsi:</label>
+                    <input type="text" name="description" value="{{ old('description', $barang->description) }}" class="w-full border rounded px-3 py-2">
                 </div>
                 <div>
-                    <label class="block mb-1 text-sm font-medium text-gray-700">Stok:</label>
-                    <input type="number" name="stok" value="{{ old('stok', $barang->stok) }}" class="w-full border rounded px-3 py-2" required>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Identifier:</label>
+                    <input type="text" name="identifier" value="{{ old('identifier', $barang->identifier) }}" class="w-full border rounded px-3 py-2" required>
                 </div>
                 <div>
-                    <label class="block mb-1 text-sm font-medium text-gray-700">Harga:</label>
-                    <input type="number" step="0.01" name="harga" value="{{ old('harga', $barang->harga) }}" class="w-full border rounded px-3 py-2" required>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Vendor:</label>
+                    <select name="id_vendor" class="w-full border rounded px-3 py-2" required>
+                        <option value="" disabled>Pilih Vendor</option>
+                        @foreach ($vendors as $vendor)
+                            <option value="{{ $vendor->id }}" {{ old('id_vendor', $barang->id_vendor) == $vendor->id ? 'selected' : '' }}>
+                                {{ $vendor->name }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
+
+            <div class="mt-6">
+                <label class="block mb-1 text-sm font-medium text-gray-700">Diupdate oleh:</label>
+                <p class="text-sm text-gray-600">
+                    {{ $barang->updated_with ?? 'Belum diupdate' }}
+                </p>
+            </div>
+
 
             <div class="mt-8 flex gap-4">
                 <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded text-lg font-semibold shadow-md">

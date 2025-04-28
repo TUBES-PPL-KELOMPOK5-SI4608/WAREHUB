@@ -26,7 +26,7 @@
 
             <div id="barang-wrapper" class="space-y-6">
                 <div class="barang-input bg-[#FBFAF5] p-6 border border-gray-300 rounded-lg shadow relative">
-                    <h3 class="text-lg font-semibold mb-4 text-[#74512D]">Barang #1</h3>
+                    <h3 class="text-lg font-semibold mb-4 text-[#74512D]">Barang </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block mb-1 text-sm font-medium text-gray-700">Nama Barang</label>
@@ -49,9 +49,12 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
+                    </div>  
                 </div>
             </div>
+
+            <input type="hidden" name="created_by" value="{{ Auth::id() }}">
+            <input type="hidden" name="created_with" value="{{ Auth::user()->name }}">
 
             <button type="button" id="add-barang" class="mt-6 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow">
                 + Tambah Barang Lagi

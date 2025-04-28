@@ -25,9 +25,9 @@
                 <a href="{{ route('dashboard-admin') }}" class="block py-2 px-4 rounded hover:bg-[#FEBA17] {{ request()->is('dashboard-admin') ? 'bg-[#FEBA17]' : '' }}">
                     🏠 Dashboard
                 </a>
-                <a href="#" class="block py-2 px-4 rounded hover:bg-[#FEBA17]">🔄 Pencatatan Keluar/Masuk</a>
+                <a href="{{ route('barangs.index') }}" class="block py-2 px-4 rounded hover:bg-[#FEBA17] {{ request()->is('barangs*') ? 'bg-[#FEBA17]' : '' }}">🔄 Pencatatan Keluar/Masuk</a>
                 <a href="#" class="block py-2 px-4 rounded hover:bg-[#FEBA17]">🔄 Kelola Data Furniture</a>
-                <a href="{{ route('barangs.index') }}" class="block py-2 px-4 rounded hover:bg-[#FEBA17] {{ request()->is('barangs*') ? 'bg-[#FEBA17]' : '' }}">
+                <a href="#" class="block py-2 px-4 rounded hover:bg-[#FEBA17]">
                     📦 Daftar Furniture
                 </a>
                 <a href="#" class="block py-2 px-4 rounded hover:bg-[#FEBA17]">🛠️ Pencatatan Kerusakan</a>
