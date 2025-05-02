@@ -1,0 +1,28 @@
+:root {
+    --base-color: #F4F4F4;
+    --button-color: #7B562A;
+}
+
+body {
+    background-color: var(--base-color);
+    font-family: 'Noto Sans', sans-serif;
+}
+
+button, 
+.btn,
+[type="button"],
+[type="submit"],
+[type="reset"] {
+    background-color: var(--button-color);
+    color: white;
+    border-color: var(--button-color);
+}
+
+button:hover, 
+.btn:hover,
+[type="button"]:hover,
+[type="submit"]:hover,
+[type="reset"]:hover {
+    background-color: #6a4a23; /* Sedikit lebih gelap untuk efek hover */
+    border-color: #6a4a23;
+}

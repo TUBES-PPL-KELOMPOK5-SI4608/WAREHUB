@@ -8,7 +8,7 @@ Route::get('/', function () {
 });
 
 // Route untuk lihat stok barang
-Route::get('/barang', [BarangController::class, 'index']);
+##Route::get('/barang', [BarangController::class, 'index']);
 
 
 //Route untuk tambah barang
@@ -18,3 +18,8 @@ Route::get('/barang/create', [BarangController::class, 'create'])->name('barang.
 Route::post('/barang', [BarangController::class, 'store'])->name('barang.store');
 
 Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
+
+
+
+
+
