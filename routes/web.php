@@ -13,9 +13,5 @@ Route::get('/dashboard-admin', function () {
     return view('dashboard.admin');
 })->name('dashboard-admin');
 
-// Ini untuk semua fitur barang
 Route::resource('barangs', BarangController::class);
 
-Route::get('/', function () {
-    return view('welcome');
-});
