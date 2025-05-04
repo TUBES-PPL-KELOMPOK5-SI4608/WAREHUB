@@ -11,13 +11,10 @@ Route::post('/logout', function () {
     return redirect('/login');
 })->name('logout');
 
-Route::get('/admin/dashboard', function () {
-    return view('dashboard.dashboard');
-})->name('dashboard-admin');
+
+Route::get('/admin/dashboard', [DashboardController::class, 'getDashboardAdmin'])->name('dashboard.admin');
 
 Route::resource('admin/barangs', BarangController::class);
-
-
 
 Route::get('/dashboard-manager', [DashboardController::class, 'index'])->name('dashboard-manager');
 

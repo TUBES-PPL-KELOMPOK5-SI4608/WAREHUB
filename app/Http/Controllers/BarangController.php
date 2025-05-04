@@ -10,6 +10,10 @@ class BarangController extends Controller
 {
     public function index(Request $request)
     {
+        if (!auth()->check()) {
+            return redirect('/login');
+        }
+        
         $barangs = Inventory::with('vendor')
             ->when($request->filled('search'), function ($query) use ($request) {
                 $query->where('name', 'like', '%' . $request->search . '%');
@@ -21,11 +25,17 @@ class BarangController extends Controller
 
     public function create()
     {
+        if (!auth()->check()) {
+            return redirect('/login');
+        }
         return view('kelolaBarang.create');
     }
 
     public function store(Request $request)
     {
+        if (!auth()->check()) {
+            return redirect('/login');
+        }
         $barangData = $request->input('barang');
 
         foreach ($barangData as $index => $data) {
@@ -55,18 +65,27 @@ class BarangController extends Controller
 
     public function show($id)
     {
+        if (!auth()->check()) {
+            return redirect('/login');
+        }
         $barang = Inventory::findOrFail($id);
         return view('barangs.show', compact('barang'));
     }
 
     public function edit($id)
     {
+        if (!auth()->check()) {
+            return redirect('/login');
+        }
         $barang = Inventory::findOrFail($id);
         return view('kelolaBarang.edit', compact('barang'));
     }
 
     public function update(Request $request, $id)
     {
+        if (!auth()->check()) {
+            return redirect('/login');
+        }
         $barang = Inventory::findOrFail($id);
 
         $validated = $request->validate([
@@ -106,6 +125,9 @@ class BarangController extends Controller
 
     public function destroy($id)
     {
+        if (!auth()->check()) {
+            return redirect('/login');
+        }
         $barang = Inventory::findOrFail($id);
     
         // Coba hapus gambar 1 kalau ada

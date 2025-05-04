@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function getDashboardAdmin()
     {
-        return view('dashboard-manager');
+        if (!auth()->check()) {
+            return redirect('/login');
+        }
+        return view('dashboard.admin');
     }
 }
