@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BarangController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\DashboardController;
 
 Route::post('/logout', function () {
     Auth::logout();
@@ -15,3 +16,6 @@ Route::get('/dashboard-admin', function () {
 
 Route::resource('barangs', BarangController::class);
 
+
+
+Route::get('/dashboard-manager', [DashboardController::class, 'index'])->name('dashboard-manager');
