@@ -22,7 +22,7 @@
                 <h2 class="text-xl font-bold">WareHub</h2>
             </div>
             <nav class="space-y-2">
-                <a href="{{ route('dashboard-admin') }}" class="block py-2 px-4 rounded hover:bg-[#FEBA17] {{ request()->is('dashboard-admin') ? 'bg-[#FEBA17]' : '' }}">
+                <a href="/admin/dashboard" class="block py-2 px-4 rounded hover:bg-[#FEBA17] {{ request()->is('dashboard-admin') ? 'bg-[#FEBA17]' : '' }}">
                     🏠 Dashboard
                 </a>
                 <a href="#" class="block py-2 px-4 rounded hover:bg-[#FEBA17]">🔄 Pencatatan Keluar/Masuk</a>
