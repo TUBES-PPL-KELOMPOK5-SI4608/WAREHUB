@@ -17,6 +17,9 @@ return new class extends Migration
             $table->text('status')->nullable();
             $table->unsignedBigInteger('id_inventory'); 
             $table->foreign('id_inventory')->references('id')->on('inventories')->onDelete('cascade');
+            $table->string('created_with')->nullable();
+            $table->string('updated_with')->nullable();
+            $table->timestamps(); 
         });
     }
 
