@@ -21,6 +21,8 @@ return new class extends Migration
             $table->timestamps(); 
 
             $table->unsignedBigInteger('id_vendor');
+            $table->string('created_with')->nullable();
+            $table->string('updated_with')->nullable();
             $table->foreign('id_vendor')->references('id')->on('vendors')->onDelete('cascade');
         });
     }
