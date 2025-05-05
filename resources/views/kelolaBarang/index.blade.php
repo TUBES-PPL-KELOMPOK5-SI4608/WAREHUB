@@ -5,14 +5,14 @@
     <div class="flex justify-between items-center mb-6">
         <h2 class="text-3xl font-bold text-gray-800">Daftar Barang</h2>
         <a href="{{ route('barangs.create') }}" class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-md shadow">
-            + Tambah Barang
+            + Tambah Barang Masuk
         </a>
     </div>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     @if (session('success'))
-        <div class="mb-4 bg-green-100 text-green-800 p-3 rounded-lg shadow-sm">
+        <div id="alert-success" class="mb-4 bg-green-100 text-green-800 p-3 rounded-lg shadow-sm transition-opacity duration-500">
             {{ session('success') }}
         </div>
     @endif
@@ -27,16 +27,16 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         @foreach ($barangs as $barang)
             <div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition relative">
-                
+
                 @if ($barang->picture_1)
-                    <img src="{{ asset('storage/' . $barang->picture_1) }}" 
-                         alt="Gambar 1" 
-                         class="rounded-lg w-full h-40 object-cover cursor-pointer" 
+                    <img src="{{ asset('storage/' . $barang->picture_1) }}"
+                         alt="Gambar 1"
+                         class="rounded-lg w-full h-40 object-cover cursor-pointer"
                          onclick="openModal('{{ asset('storage/' . $barang->picture_1) }}', '{{ asset('storage/' . $barang->picture_2) }}')">
                 @endif
 
                 <h3 class="text-xl font-semibold text-blue-700 mt-4">{{ $barang->name }}</h3>
-                
+
                 <div class="text-sm text-gray-600 mb-2 mt-2">
                     <p><strong>Deskripsi:</strong> {{ $barang->description }}</p>
                     <p><strong>Vendor:</strong> {{ $barang->vendor->name ?? '-' }}</p>
@@ -46,9 +46,8 @@
                     <a href="{{ route('barangs.edit', $barang->id) }}" class="text-sm bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500">
                         ✏️ Edit
                     </a>
-                    <form data-barang-id="{{ $barang->id }}" class="form-hapus-barang">
+                    <form data-barang-id="{{ $barang->id }}" data-action="{{ route('barangs.forceDelete', $barang->id) }}" class="form-hapus-barang">
                         @csrf
-                        @method('DELETE')
                         <button type="button" class="btn-hapus text-sm bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
                             🗑️ Hapus
                         </button>
@@ -68,7 +67,6 @@
             <button id="batal-btn" class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">Batal</button>
             <form id="form-konfirmasi" method="POST" class="inline">
                 @csrf
-                @method('DELETE')
                 <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Hapus</button>
             </form>
         </div>
@@ -92,6 +90,7 @@
 </div>
 
 <script>
+    // Hapus barang dengan konfirmasi
     const modal = document.getElementById('modal-konfirmasi');
     const formKonfirmasi = document.getElementById('form-konfirmasi');
     const batalBtn = document.getElementById('batal-btn');
@@ -99,7 +98,7 @@
     document.querySelectorAll('.btn-hapus').forEach(button => {
         button.addEventListener('click', function () {
             const form = this.closest('.form-hapus-barang');
-            const action = form.getAttribute('action') || `/barangs/${form.dataset.barangId}`;
+            const action = form.getAttribute('data-action');
             formKonfirmasi.setAttribute('action', action);
             modal.classList.remove('hidden');
         });
@@ -110,6 +109,7 @@
         formKonfirmasi.setAttribute('action', '');
     });
 
+    // Modal gambar
     const modalGambar = document.getElementById('modal-gambar');
     const gambarPreview = document.getElementById('gambar-preview');
     const gambar1 = document.getElementById('gambar-1');
@@ -141,7 +141,6 @@
     function setActiveThumbnail(active, inactive) {
         active.classList.add('border-4', 'border-blue-500', 'shadow-md');
         active.classList.remove('border-2');
-
         inactive.classList.remove('border-4', 'border-blue-500', 'shadow-md');
         inactive.classList.add('border-2');
     }
@@ -156,4 +155,15 @@
         setActiveThumbnail(gambar2, gambar1);
     };
 </script>
+
+<script>
+    setTimeout(() => {
+        const alert = document.getElementById('alert-success');
+        if (alert) {
+            alert.classList.add('opacity-0');
+            setTimeout(() => alert.remove(), 500);
+        }
+    }, 4000);
+</script>
+
 @endsection

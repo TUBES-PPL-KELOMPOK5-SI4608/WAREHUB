@@ -43,7 +43,13 @@
                         </div>
                         <div>
                             <label class="block mb-1 text-sm font-medium text-gray-700">Vendor</label>
-                            <input type="number" name="barang[0][vendor]" class="w-full border rounded px-3 py-2" required>
+                            <select name="barang[0][vendor]" class="w-full border rounded px-3 py-2" required>
+                                <option value="" disabled selected>Pilih Vendor</option>
+
+                                @foreach ($vendors as $vendor)
+                                    <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div>
                             <label class="block mb-1 text-sm font-medium text-gray-700">Foto 1</label>
@@ -59,7 +65,7 @@
 
             <!-- Tombol tambah -->
             <button type="button" id="add-barang" class="mt-6 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow">
-            + Tambah Barang Lagi
+                + Tambah Barang Lagi
             </button>
 
             <!-- Tombol submit -->
@@ -74,39 +80,47 @@
 
 <script>
     let index = 1;
+    const vendors = @json($vendors);
 
     document.getElementById('add-barang').addEventListener('click', function () {
         const wrapper = document.getElementById('barang-wrapper');
-
         const newCard = document.createElement('div');
         newCard.classList = 'barang-input bg-[#FBFAF5] p-6 border border-gray-300 rounded-lg shadow relative mt-4';
+
+        let vendorOptions = '<option value="">-- Pilih Vendor --</option>';
+        vendors.forEach(v => {
+            vendorOptions += `<option value="${v.id}">${v.name}</option>`;
+        });
+
         newCard.innerHTML = `
             <h3 class="text-lg font-semibold mb-4 text-[#74512D]">Barang #${index + 1}</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block mb-1 text-sm font-medium text-gray-700">Nama Barang</label>
-                            <input type="text" name="barang[${index}][name]" class="w-full border rounded px-3 py-2" required>
-                        </div>
-                        <div>
-                            <label class="block mb-1 text-sm font-medium text-gray-700">Deskripsi</label>
-                            <input type="text" name="barang[${index}][description]" class="w-full border rounded px-3 py-2">
-                        </div>
-                        <div>
-                            <label class="block mb-1 text-sm font-medium text-gray-700">Identifier</label>
-                            <input type="text" name="barang[${index}][identifier]" class="w-full border rounded px-3 py-2" required>
-                        </div>
-                        <div>
-                            <label class="block mb-1 text-sm font-medium text-gray-700">Vendor</label>
-                            <input type="number" name="barang[${index}][vendor]" class="w-full border rounded px-3 py-2" required>
-                        </div>
-                        <div>
-                            <label class="block mb-1 text-sm font-medium text-gray-700">Foto 1</label>
-                            <input type="file" name="barang[${index}][picture_1]" class="w-full border rounded px-3 py-2" required>
-                        </div>
-                        <div>
-                            <label class="block mb-1 text-sm font-medium text-gray-700">Foto 2</label>
-                            <input type="file" name="barang[${index}][picture_2]" class="w-full border rounded px-3 py-2" required>
-                        </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Nama Barang</label>
+                    <input type="text" name="barang[${index}][name]" class="w-full border rounded px-3 py-2" required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Deskripsi</label>
+                    <input type="text" name="barang[${index}][description]" class="w-full border rounded px-3 py-2">
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Identifier</label>
+                    <input type="text" name="barang[${index}][identifier]" class="w-full border rounded px-3 py-2" required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Vendor</label>
+                    <select name="barang[${index}][vendor]" class="w-full border rounded px-3 py-2" required>
+                        ${vendorOptions}
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Foto 1</label>
+                    <input type="file" name="barang[${index}][picture_1]" class="w-full border rounded px-3 py-2" required>
+                </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Foto 2</label>
+                    <input type="file" name="barang[${index}][picture_2]" class="w-full border rounded px-3 py-2" required>
+                </div>
             </div>
         `;
         wrapper.appendChild(newCard);

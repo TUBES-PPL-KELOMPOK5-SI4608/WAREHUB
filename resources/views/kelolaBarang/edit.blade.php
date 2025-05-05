@@ -34,8 +34,17 @@
                 </div>
                 <div class="md:col-span-2">
                     <label class="block mb-1 text-sm font-medium text-gray-700">Vendor:</label>
-                    <input type="text" name="id_vendor" value="{{ old('id_vendor', $barang->id_vendor) }}" class="w-full border rounded px-3 py-2" required>
+                    <select name="id_vendor" class="w-full border rounded px-3 py-2" required>
+                        <option value="" disabled>-- Pilih Vendor --</option>
+                        @foreach ($vendors as $vendor)
+                            <option value="{{ $vendor->id }}"
+                                {{ old('id_vendor', $barang->id_vendor) == $vendor->id ? 'selected' : '' }}>
+                                {{ $vendor->name }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
+
             </div>
 
             <div class="mt-6">

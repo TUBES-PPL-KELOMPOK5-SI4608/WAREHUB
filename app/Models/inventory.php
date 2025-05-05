@@ -16,7 +16,8 @@ class Inventory extends Model
         'id_vendor',
         'picture_1',
         'picture_2',
-        'created_with'
+        'created_with',
+        'status'
     ];
 
     // Relasi ke Vendor
