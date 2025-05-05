@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Inventory;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class BarangController extends Controller
 {
@@ -13,14 +14,20 @@ class BarangController extends Controller
         if (!auth()->check()) {
             return redirect('/login');
         }
-        
+    
+        $user = auth()->user();
+    
         $barangs = Inventory::with('vendor')
+            ->where(function ($query) {
+                $query->where('status', '!=', 'out')
+                      ->orWhereNull('status');
+            })
             ->when($request->filled('search'), function ($query) use ($request) {
                 $query->where('name', 'like', '%' . $request->search . '%');
             })
             ->get();
-
-        return view('kelolaBarang.index', compact('barangs'));
+    
+        return view('kelolaBarang.index', compact('barangs', 'user'));
     }
 
     public function create()
@@ -28,7 +35,10 @@ class BarangController extends Controller
         if (!auth()->check()) {
             return redirect('/login');
         }
-        return view('kelolaBarang.create');
+        $user = auth()->user();
+    
+        $vendors = \App\Models\Vendor::select('id', 'name')->get(); 
+        return view('kelolaBarang.create', compact('vendors', 'user'));
     }
 
     public function store(Request $request)
@@ -36,6 +46,8 @@ class BarangController extends Controller
         if (!auth()->check()) {
             return redirect('/login');
         }
+
+        $user = Auth::user(); 
         $barangData = $request->input('barang');
 
         foreach ($barangData as $index => $data) {
@@ -54,9 +66,10 @@ class BarangController extends Controller
                 'description' => $data['description'] ?? null,
                 'identifier' => $data['identifier'],
                 'id_vendor' => $data['vendor'],
+                'status' => 'available',
                 'picture_1' => $picture1Path,
                 'picture_2' => $picture2Path,
-                'created_with' => 'fia'
+                'created_with' => $user->username,
             ]);
         }
 
@@ -68,8 +81,9 @@ class BarangController extends Controller
         if (!auth()->check()) {
             return redirect('/login');
         }
+        $user = auth()->user();
         $barang = Inventory::findOrFail($id);
-        return view('barangs.show', compact('barang'));
+        return view('barangs.show', compact('barang', 'user'));
     }
 
     public function edit($id)
@@ -77,8 +91,11 @@ class BarangController extends Controller
         if (!auth()->check()) {
             return redirect('/login');
         }
+        $user = auth()->user();
         $barang = Inventory::findOrFail($id);
-        return view('kelolaBarang.edit', compact('barang'));
+        $vendors = \App\Models\Vendor::select('id', 'name')->get();
+    
+        return view('kelolaBarang.edit', compact('barang', 'vendors', 'user'));
     }
 
     public function update(Request $request, $id)
@@ -156,10 +173,26 @@ class BarangController extends Controller
             }
         }
     
-        // Setelah file dihapus atau dilewati error, hapus barang
         $barang->delete();
     
         return redirect()->route('barangs.index')->with('success', 'Barang berhasil dihapus!');
     }
+
+    public function minimum()
+    {
+        if (!auth()->check()) {
+            return redirect('/login');
+        }
+    
+        $identifiers = Inventory::where('status', 'available')
+            ->select('identifier')
+            ->groupBy('identifier')
+            ->selectRaw('identifier, COUNT(*) as qty')
+            ->having('qty', '<', 5)
+            ->pluck('qty', 'identifier');
+    
+        return view('kelolaBarang.minimum', compact('identifiers'));
+    }
+
     
 }
