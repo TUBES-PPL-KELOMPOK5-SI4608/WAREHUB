@@ -130,7 +130,6 @@ class BarangController extends Controller
         }
         $barang = Inventory::findOrFail($id);
     
-        // Coba hapus gambar 1 kalau ada
         if ($barang->picture_1) {
             try {
                 if (Storage::disk('public')->exists($barang->picture_1)) {
@@ -144,7 +143,6 @@ class BarangController extends Controller
             }
         }
     
-        // Coba hapus gambar 2 kalau ada
         if ($barang->picture_2) {
             try {
                 if (Storage::disk('public')->exists($barang->picture_2)) {
