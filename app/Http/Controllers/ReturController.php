@@ -11,6 +11,11 @@ class ReturController extends Controller
 {
     public function index(Request $request)
     {
+        if (!auth()->check()) {
+            return redirect('/login');
+        }
+    
+        $user = auth()->user();
         $search = $request->input('search');
     
         $returs = Retur::with('vendor')
@@ -23,11 +28,14 @@ class ReturController extends Controller
     
         $vendors = Vendor::select('id', 'name', 'contact')->get();
     
-        return view('returs.index', compact('returs', 'vendors', 'search'));
+        return view('returs.index', compact('returs', 'vendors', 'search', 'user'));
     }
 
     public function store(Request $request)
     {
+        if (!auth()->check()) {
+            return redirect('/login');
+        }
         $request->validate([
             'name' => 'required',
             'description' => 'nullable',
@@ -54,6 +62,9 @@ class ReturController extends Controller
 
     public function updateStatus(Request $request, $id)
     {
+        if (!auth()->check()) {
+            return redirect('/login');
+        }
         $request->validate([
             'status' => 'required|in:pending,in progress,done'
         ]);
@@ -68,6 +79,9 @@ class ReturController extends Controller
 
     public function destroy($id)
     {
+        if (!auth()->check()) {
+            return redirect('/login');
+        }
         Retur::destroy($id);
         return back()->with('success', 'Retur berhasil dihapus.');
     }

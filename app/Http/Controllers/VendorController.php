@@ -9,18 +9,30 @@ class VendorController extends Controller
 {
     public function index()
     {
+        if (!auth()->check()) {
+            return redirect('/login');
+        }
+        $user = auth()->user();
         $vendors = Vendor::all(); 
-        return view('vendors.index', compact('vendors')); 
+        return view('vendors.index', compact('vendors', 'user')); 
     }
 
 
     public function create()
     {
-        return view('vendors.create');
+        if (!auth()->check()) {
+            return redirect('/login');
+        }
+        $user = auth()->user();
+
+        return view('vendors.create', compact('user')); 
     }
 
     public function store(Request $request)
     {
+        if (!auth()->check()) {
+            return redirect('/login');
+        }
         Vendor::create([
             'name' => $request->name,
             'contact' => $request->contact
@@ -31,6 +43,9 @@ class VendorController extends Controller
 
     public function edit(Vendor $vendor)
     {
+        if (!auth()->check()) {
+            return redirect('/login');
+        }
         return view('vendors.edit', compact('vendor'));
     }
 

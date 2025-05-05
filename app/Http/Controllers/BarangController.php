@@ -183,6 +183,7 @@ class BarangController extends Controller
         if (!auth()->check()) {
             return redirect('/login');
         }
+        $user = auth()->user();
     
         $identifiers = Inventory::where('status', 'available')
             ->select('identifier')
@@ -191,7 +192,7 @@ class BarangController extends Controller
             ->having('qty', '<', 5)
             ->pluck('qty', 'identifier');
     
-        return view('kelolaBarang.minimum', compact('identifiers'));
+        return view('kelolaBarang.minimum', compact('identifiers', 'user'));
     }
 
     

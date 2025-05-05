@@ -9,10 +9,11 @@ use App\Models\stock_out;
 class NotifikasiController extends Controller
 {
     public function index(Request $request)
-{
+    {
     if (!auth()->check()) {
         return redirect('/login');
     }
+    $user = auth()->user();
 
     $tanggal = $request->input('date');
 
@@ -32,6 +33,6 @@ class NotifikasiController extends Controller
         ->latest('created_at')
         ->get();
 
-    return view('notifikasi.index', compact('inventories', 'stockOuts', 'tanggal'));
+    return view('notifikasi.index', compact('inventories', 'stockOuts', 'tanggal', 'user'));
 }
 }

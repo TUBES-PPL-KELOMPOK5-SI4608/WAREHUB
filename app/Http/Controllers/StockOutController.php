@@ -11,6 +11,11 @@ class StockOutController extends Controller
 {
     public function index(Request $request)
     {
+        if (!auth()->check()) {
+            return redirect('/login');
+        }
+    
+        $user = auth()->user();
         $query = Inventory::where('status', '!=', 'out');
     
         if ($request->filled('search')) {
@@ -19,7 +24,7 @@ class StockOutController extends Controller
     
         $inventories = $query->paginate(12);
     
-        return view('stockouts.index', compact('inventories'));
+        return view('stockouts.index', compact('inventories', 'user'));
     }
         
     public function store($id){
