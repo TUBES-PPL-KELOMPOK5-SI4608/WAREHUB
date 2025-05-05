@@ -46,6 +46,12 @@ Route::post('/admin/returs/{id}/status', [ReturController::class, 'updateStatus'
 Route::get('/admin/barang/minimum', [BarangController::class, 'minimum'])->name('barangs.minimum');
 
 
-
+Route::fallback(function () {
+    if (auth()->check()) {
+        return redirect('/admin/dashboard');
+    } else {
+        return redirect('/login');
+    }
+});
 
 
