@@ -15,6 +15,11 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        if (!auth()->check()) {
+            return redirect('/login');
+        }
+        
+        $user = auth()->user();
         $totalProducts = Inventory::count();
         $barangRusak = Retur::count();
         $qtyIn = Inventory::where('status', 'available')->count();
@@ -55,7 +60,7 @@ class DashboardController extends Controller
         //dd($kategoriStok);
         return view('dashboard.admin', compact(
             'totalProducts', 'barangRusak', 'qtyIn', 'qtyOut',
-            'kategoriStok', 'barangMasukPerBulan', 'barangKeluarPerBulan'
+            'kategoriStok', 'barangMasukPerBulan', 'barangKeluarPerBulan', 'user'
         ));
     }
     
