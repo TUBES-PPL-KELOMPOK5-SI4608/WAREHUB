@@ -38,10 +38,11 @@
                             <td class="px-4 text-center py-3">{{ $vendor->name }}</td>
                             <td class="px-4 text-center py-3">{{ $vendor->contact }}</td>
                             <td class="px-4 py-3 text-center space-x-2">
-                                <a href="{{ route('vendors.show', $vendor) }}"
-                                   class="inline-block px-2 py-1 text-blue-600 hover:text-blue-800 border border-blue-500 rounded">
+                                <!-- Lihat Button for Modal -->
+                                <button type="button" class="inline-block px-2 py-1 text-blue-600 hover:text-blue-800 border border-blue-500 rounded"
+                                    onclick="openModal('{{ $vendor->name }}', '{{ $vendor->contact }}')">
                                     Lihat
-                                </a>
+                                </button>
                                 <a href="{{ route('vendors.edit', $vendor) }}"
                                    class="inline-block px-2 py-1 text-yellow-600 hover:text-yellow-800 border border-yellow-500 rounded">
                                     Edit
@@ -68,7 +69,17 @@
     @endif
 </div>
 
-{{-- Alert Auto Dismiss --}}
+<div id="vendorModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+        <h2 class="text-lg font-semibold text-gray-800 mb-4">Detail Vendor</h2>
+        <p><strong>Nama:</strong> <span id="vendorName"></span></p>
+        <p><strong>Kontak:</strong> <span id="vendorContact"></span></p>
+        <div class="flex justify-end mt-4">
+            <button id="closeModal" class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">Tutup</button>
+        </div>
+    </div>
+</div>
+
 @if(session('success'))
 <script>
     setTimeout(() => {
@@ -80,4 +91,16 @@
     }, 4000);
 </script>
 @endif
+
+<script>
+    function openModal(name, contact) {
+        document.getElementById('vendorName').innerText = name;
+        document.getElementById('vendorContact').innerText = contact;
+        document.getElementById('vendorModal').classList.remove('hidden');
+    }
+
+    document.getElementById('closeModal').addEventListener('click', () => {
+        document.getElementById('vendorModal').classList.add('hidden');
+    });
+</script>
 @endsection
