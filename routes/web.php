@@ -45,6 +45,9 @@ Route::delete('/admin/returs/{id}', [ReturController::class, 'destroy'])->name('
 Route::post('/admin/returs/{id}/status', [ReturController::class, 'updateStatus'])->name('returs.updateStatus');
 Route::get('/admin/barang/minimum', [BarangController::class, 'minimum'])->name('barangs.minimum');
 
+Route::get('/admin/barang/defect', [BarangController::class, 'defect'])->name('barangs.defect');
+Route::put('/admin/barang/defect/update/{id}', [BarangController::class, 'updateDefect'])->name('barang.defectUpdate');
+
 
 Route::fallback(function () {
     if (auth()->check()) {

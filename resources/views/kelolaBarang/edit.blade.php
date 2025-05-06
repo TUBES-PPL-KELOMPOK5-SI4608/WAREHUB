@@ -45,6 +45,14 @@
                     </select>
                 </div>
 
+                <div class="md:col-span-2">
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Kondisi:</label>
+                    <select name="status" class="w-full border rounded px-3 py-2" required>
+                        <option value="available" {{ old('status', $barang->status) == 'available' ? 'selected' : '' }}>Available</option>
+                        <option value="defect" {{ old('status', $barang->status) == 'defect' ? 'selected' : '' }}>Defect</option>
+                    </select>
+                </div>
+
             </div>
 
             <div class="mt-6">

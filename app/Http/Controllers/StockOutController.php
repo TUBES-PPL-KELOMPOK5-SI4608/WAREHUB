@@ -16,7 +16,8 @@ class StockOutController extends Controller
         }
     
         $user = auth()->user();
-        $query = Inventory::where('status', '!=', 'out');
+        $query = Inventory::where('status', '!=', 'out')
+                  ->where('status', '!=', 'defect');    
     
         if ($request->filled('search')) {
             $query->where('name', 'like', '%' . $request->search . '%');

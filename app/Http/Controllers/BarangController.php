@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Inventory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Models\Vendor;
+
 
 class BarangController extends Controller
 {
@@ -20,7 +23,8 @@ class BarangController extends Controller
         $barangs = Inventory::with('vendor')
             ->where(function ($query) {
                 $query->where('status', '!=', 'out')
-                      ->orWhereNull('status');
+                    ->where('status', '!=', 'defect')
+                    ->orWhereNull('status');
             })
             ->when($request->filled('search'), function ($query) use ($request) {
                 $query->where('name', 'like', '%' . $request->search . '%');
@@ -103,6 +107,7 @@ class BarangController extends Controller
         if (!auth()->check()) {
             return redirect('/login');
         }
+        $user = Auth::user(); 
         $barang = Inventory::findOrFail($id);
 
         $validated = $request->validate([
@@ -119,6 +124,8 @@ class BarangController extends Controller
             'identifier' => $validated['identifier'],
             'description' => $validated['description'] ?? null,
             'id_vendor' => $validated['id_vendor'],
+            'updated_with' => $user->username,
+            'status' => $request->status
         ]);
 
         if ($request->hasFile('picture_1')) {
@@ -195,5 +202,44 @@ class BarangController extends Controller
         return view('kelolaBarang.minimum', compact('identifiers', 'user'));
     }
 
+    public function defect()
+    {
+        if (!auth()->check()) {
+            return redirect('/login');
+        }
+    
+        $defectItems = DB::table('inventories')
+            ->join('vendors', 'inventories.id_vendor', '=', 'vendors.id')
+            ->where('inventories.status', 'defect')
+            ->select('inventories.*', 'vendors.name as vendor_name', 'vendors.contact as vendor_contact', 'vendors.id as vendor_id')
+            ->get();
+    
+        $vendors = Vendor::all();
+    
+        return view('kelolaBarang.defect', compact('defectItems', 'vendors'));
+    }
+    
+    public function updateDefect(Request $request, $id)
+    {
+        $barang = DB::table('inventories')->where('id', $id)->first();
+    
+        if (!$barang) {
+            return redirect()->route('barangs.defect')->with('error', 'Barang tidak ditemukan.');
+        }
+    
+        $status = $request->input('status', $barang->status);
+    
+        DB::table('inventories')->where('id', $id)->update([
+            'name' => $request->input('name', $barang->name),
+            'identifier' => $request->input('identifier', $barang->identifier),
+            'description' => $request->input('description', $barang->description),
+            'status' => $status,
+            'id_vendor' => $request->input('id_vendor', $barang->id_vendor),
+        ]);
+    
+        return redirect()->route('barangs.defect')->with('success', 'Barang berhasil diupdate!');
+    }
+    
+    
     
 }
