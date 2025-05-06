@@ -207,6 +207,8 @@ class BarangController extends Controller
         if (!auth()->check()) {
             return redirect('/login');
         }
+        $user = auth()->user();
+
     
         $defectItems = DB::table('inventories')
             ->join('vendors', 'inventories.id_vendor', '=', 'vendors.id')
@@ -216,11 +218,15 @@ class BarangController extends Controller
     
         $vendors = Vendor::all();
     
-        return view('kelolaBarang.defect', compact('defectItems', 'vendors'));
+        return view('kelolaBarang.defect', compact('defectItems', 'vendors', 'user'));
     }
     
     public function updateDefect(Request $request, $id)
     {
+        if (!auth()->check()) {
+            return redirect('/login');
+        }
+
         $barang = DB::table('inventories')->where('id', $id)->first();
     
         if (!$barang) {

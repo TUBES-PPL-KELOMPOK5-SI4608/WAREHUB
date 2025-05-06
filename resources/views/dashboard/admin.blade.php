@@ -14,11 +14,11 @@
         </div>
         <div class="bg-orange-100 p-4 rounded-lg text-center">
             <div class="text-3xl font-bold">{{ $qtyIn }}</div>
-            <p>Quantity In</p>
+            <p>Barang Masuk</p>
         </div>
         <div class="bg-orange-100 p-4 rounded-lg text-center">
             <div class="text-3xl font-bold">{{ $qtyOut }}</div>
-            <p>Quantity Out</p>
+            <p>Barang Keluar</p>
         </div>
     </div>
 
