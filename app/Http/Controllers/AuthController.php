@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ActivityLog;
+
 
 
 class AuthController extends Controller
@@ -45,11 +47,20 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)){
             $request->session()->regenerate();
+            $user = Auth::user();
 
             if (Auth::user()->role=='admin'){
-                return redirect()->intended('/admin/dashboard');
+
+                ActivityLog::create([
+                    'user_id' => $user->id,
+                    'action' => 'login',
+                    'description' => 'Admin logged in',
+                ]);
+                return redirect()->intended('/dashboard');
+
             }else{
-                return redirect()->intended('/manager/dashboard');
+
+                return redirect()->intended('/audit/auth');
             }
         }
 

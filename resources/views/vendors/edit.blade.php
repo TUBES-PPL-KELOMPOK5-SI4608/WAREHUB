@@ -21,6 +21,16 @@
             <input type="text" name="contact" id="contact" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" 
                    value="{{ $vendor->contact }}" placeholder="Masukkan kontak vendor" required>
         </div>
+        <div>
+            <label for="contact" class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="text" name="email" id="contact" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" 
+                   value="{{ $vendor->email }}" placeholder="Masukkan kontak vendor" required>
+        </div>
+        <div>
+            <label for="contact" class="block text-sm font-medium text-gray-700">Alamat</label>
+            <input type="text" name="address" id="contact" class="mt-2 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" 
+                   value="{{ $vendor->address }}" placeholder="Masukkan kontak vendor" required>
+        </div>
 
         <div class="flex justify-between mt-6">
             <a href="{{ route('vendors.index') }}" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400">

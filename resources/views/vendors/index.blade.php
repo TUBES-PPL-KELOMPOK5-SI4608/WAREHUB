@@ -29,6 +29,8 @@
                     <tr>
                         <th class="px-4 py-3 border-b border-gray-300">Nama</th>
                         <th class="px-4 py-3 border-b border-gray-300">Telepon</th>
+                        <th class="px-4 py-3 border-b border-gray-300">Email</th>
+                        <th class="px-4 py-3 border-b border-gray-300">Alamat</th>
                         <th class="px-4 py-3 border-b border-gray-300">Aksi</th>
                     </tr>
                 </thead>
@@ -37,6 +39,8 @@
                         <tr>
                             <td class="px-4 text-center py-3">{{ $vendor->name }}</td>
                             <td class="px-4 text-center py-3">{{ $vendor->contact }}</td>
+                            <td class="px-4 text-center py-3">{{ $vendor->email }}</td>
+                            <td class="px-4 text-center py-3">{{ $vendor->address }}</td>
                             <td class="px-4 py-3 text-center space-x-2">
                                 <!-- Lihat Button for Modal -->
                                 <button type="button" class="inline-block px-2 py-1 text-blue-600 hover:text-blue-800 border border-blue-500 rounded"

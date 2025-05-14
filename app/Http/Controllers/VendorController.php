@@ -35,7 +35,9 @@ class VendorController extends Controller
         }
         Vendor::create([
             'name' => $request->name,
-            'contact' => $request->contact
+            'contact' => $request->contact,
+            'email' => $request->email,
+            'address' => $request->address,
         ]);
 
         return redirect()->route('vendors.index')->with('success', 'Vendor berhasil ditambahkan.');
@@ -53,7 +55,9 @@ class VendorController extends Controller
     {
         $vendor->update([
             'name' => $request->name,
-            'contact' => $request->contact
+            'contact' => $request->contact,
+            'email' => $request->email,
+            'address' => $request->address,
         ]);
 
         return redirect()->route('vendors.index')->with('success', 'Vendor berhasil diperbarui.');

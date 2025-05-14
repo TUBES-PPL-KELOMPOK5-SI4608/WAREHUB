@@ -20,6 +20,18 @@
                    placeholder="Masukkan kontak vendor"
                    class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring focus:border-blue-300">
         </div>
+        <div>
+            <label for="contact" class="block text-sm font-medium">Email</label>
+            <input type="text" name="email" id="contact" required
+                   placeholder="Masukkan email vendor"
+                   class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring focus:border-blue-300">
+        </div>
+        <div>
+            <label for="contact" class="block text-sm font-medium">Alamat</label>
+            <input type="text" name="address" id="contact" required
+                   placeholder="Masukkan alamat vendor"
+                   class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring focus:border-blue-300">
+        </div>
 
         <div class="flex justify-between pt-4">
             <a href="{{ route('vendors.index') }}"
