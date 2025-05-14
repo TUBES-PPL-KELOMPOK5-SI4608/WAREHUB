@@ -22,7 +22,7 @@
         const form = document.getElementById('status-form');
         const select = document.getElementById('status-select');
         select.value = currentStatus;
-        form.action = `/admin/returs/${id}/status`;
+        form.action = `/returs/${id}/status`;
         modal.classList.remove('hidden');
     }
 </script>
