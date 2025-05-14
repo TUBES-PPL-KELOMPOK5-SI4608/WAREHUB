@@ -26,7 +26,14 @@
                 </div>
                 <div>
                     <label class="block mb-1 text-sm font-medium text-gray-700">Identifier:</label>
-                    <input type="text" name="identifier" value="{{ old('identifier', $barang->identifier) }}" class="w-full border rounded px-3 py-2" required>
+                    <select name="identifier" class="w-full border rounded px-3 py-2" required>
+                        <option value="" disabled>Pilih Identifier</option>
+                        @foreach ($identifiers as $identifier)
+                            <option value="{{ $identifier }}" {{ old('identifier', $barang->identifier) == $identifier ? 'selected' : '' }}>
+                                {{ $identifier }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="md:col-span-2">
                     <label class="block mb-1 text-sm font-medium text-gray-700">Deskripsi:</label>

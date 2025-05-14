@@ -40,9 +40,11 @@ class BarangController extends Controller
             return redirect('/login');
         }
         $user = auth()->user();
-    
+        
+        $identifiers = \DB::table('identifiers')->pluck('identifier');
         $vendors = \App\Models\Vendor::select('id', 'name')->get(); 
-        return view('kelolaBarang.create', compact('vendors', 'user'));
+
+        return view('kelolaBarang.create', compact('vendors', 'user', 'identifiers'));
     }
 
     public function store(Request $request)
@@ -98,8 +100,9 @@ class BarangController extends Controller
         $user = auth()->user();
         $barang = Inventory::findOrFail($id);
         $vendors = \App\Models\Vendor::select('id', 'name')->get();
+        $identifiers = DB::table('identifiers')->pluck('identifier');
     
-        return view('kelolaBarang.edit', compact('barang', 'vendors', 'user'));
+        return view('kelolaBarang.edit', compact('barang', 'vendors', 'user', 'identifiers'));
     }
 
     public function update(Request $request, $id)
@@ -190,17 +193,31 @@ class BarangController extends Controller
         if (!auth()->check()) {
             return redirect('/login');
         }
+
         $user = auth()->user();
-    
-        $identifiers = Inventory::where('status', 'available')
-            ->select('identifier')
-            ->groupBy('identifier')
-            ->selectRaw('identifier, COUNT(*) as qty')
-            ->having('qty', '<', 5)
-            ->pluck('qty', 'identifier');
-    
-        return view('kelolaBarang.minimum', compact('identifiers', 'user'));
+
+        $identifiers = DB::table('identifiers')->get();
+
+        $data = $identifiers->mapWithKeys(function ($item) {
+            $qty = DB::table('inventories')
+                ->where('identifier', $item->identifier)
+                ->where('status', 'available')
+                ->count();
+
+            return [
+                $item->identifier => [
+                    'qty' => $qty,
+                    'limit' => $item->quantity,
+                ]
+            ];
+        });
+
+        return view('kelolaBarang.minimum', [
+            'user' => $user,
+            'identifiers' => $data
+        ]);
     }
+    
 
     public function defect()
     {

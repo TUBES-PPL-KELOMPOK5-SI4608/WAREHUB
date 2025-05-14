@@ -1,4 +1,3 @@
-<!-- Modal Edit -->
 <div id="edit-modal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
     <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
         <h2 class="text-lg font-semibold text-gray-800 mb-4">Edit Barang Rusak</h2>
@@ -7,7 +6,6 @@
             @csrf
             @method('PUT')
 
-            <!-- Hidden Item ID -->
             <input type="hidden" id="modal-item-id" name="id">
 
             <div class="mb-4">

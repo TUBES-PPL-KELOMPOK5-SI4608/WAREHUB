@@ -8,7 +8,7 @@
         <a href="{{ route('barangs.create') }}" class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-md shadow">
             + Tambah Barang Masuk
         </a>
-        <a href="/admin/barang/defect" class="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2 rounded-md shadow" style="margin-left:9px;">
+        <a href="/barang/defect" class="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2 rounded-md shadow" style="margin-left:9px;">
             Barang Defect
         </a>
         </div>
@@ -44,17 +44,18 @@
 
                 <div class="text-sm text-gray-600 mb-2 mt-2">
                     <p><strong>Deskripsi:</strong> {{ $barang->description }}</p>
+                    <p><strong>Identifier:</strong> {{ $barang->identifier ?? '-' }}</p>
                     <p><strong>Vendor:</strong> {{ $barang->vendor->name ?? '-' }}</p>
                 </div>
 
                 <div class="flex justify-between mt-4">
                     <a href="{{ route('barangs.edit', $barang->id) }}" class="text-sm bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500">
-                        ✏️ Edit
+                        Detail
                     </a>
                     <form data-barang-id="{{ $barang->id }}" data-action="{{ route('barangs.forceDelete', $barang->id) }}" class="form-hapus-barang">
                         @csrf
                         <button type="button" class="btn-hapus text-sm bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
-                            🗑️ Hapus
+                            Hapus
                         </button>
                     </form>
                 </div>
@@ -63,7 +64,6 @@
     </div>
 </div>
 
-<!-- Modal Konfirmasi Hapus -->
 <div id="modal-konfirmasi" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
     <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
         <h2 class="text-lg font-semibold text-gray-800 mb-4">Konfirmasi Penghapusan</h2>
@@ -78,7 +78,6 @@
     </div>
 </div>
 
-<!-- Modal Preview Gambar -->
 <div id="modal-gambar" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden opacity-0 transition-opacity duration-500">
     <div class="bg-white rounded-lg overflow-hidden shadow-lg w-full max-w-md scale-95 transform transition-transform duration-500">
         <div class="relative">
@@ -95,7 +94,6 @@
 </div>
 
 <script>
-    // Hapus barang dengan konfirmasi
     const modal = document.getElementById('modal-konfirmasi');
     const formKonfirmasi = document.getElementById('form-konfirmasi');
     const batalBtn = document.getElementById('batal-btn');
@@ -114,7 +112,6 @@
         formKonfirmasi.setAttribute('action', '');
     });
 
-    // Modal gambar
     const modalGambar = document.getElementById('modal-gambar');
     const gambarPreview = document.getElementById('gambar-preview');
     const gambar1 = document.getElementById('gambar-1');

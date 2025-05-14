@@ -8,7 +8,7 @@
         <div class="flex justify-between items-center mb-6 border-b pb-2">
             <h2 class="text-2xl font-bold text-[#74512D]">Tambah Barang</h2>
             <a href="{{ route('barangs.index') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded shadow text-sm font-medium">
-                 Kembali ke Daftar Barang
+                Kembali ke Daftar Barang
             </a>
         </div>
 
@@ -39,13 +39,17 @@
                         </div>
                         <div>
                             <label class="block mb-1 text-sm font-medium text-gray-700">Identifier</label>
-                            <input type="text" name="barang[0][identifier]" class="w-full border rounded px-3 py-2" required>
+                            <select name="barang[0][identifier]" class="w-full border rounded px-3 py-2" required>
+                                <option value="" disabled selected>Pilih Identifier</option>
+                                @foreach ($identifiers as $identifier)
+                                    <option value="{{ $identifier }}">{{ $identifier }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div>
                             <label class="block mb-1 text-sm font-medium text-gray-700">Vendor</label>
                             <select name="barang[0][vendor]" class="w-full border rounded px-3 py-2" required>
                                 <option value="" disabled selected>Pilih Vendor</option>
-
                                 @foreach ($vendors as $vendor)
                                     <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
                                 @endforeach
@@ -53,11 +57,11 @@
                         </div>
                         <div>
                             <label class="block mb-1 text-sm font-medium text-gray-700">Foto 1</label>
-                            <input type="file" name="barang[0][picture_1]" class="w-full border rounded px-3 py-2" required>
+                            <input type="file" name="barang[0][picture_1]" class="w-full border rounded px-3 py-2">
                         </div>
                         <div>
                             <label class="block mb-1 text-sm font-medium text-gray-700">Foto 2</label>
-                            <input type="file" name="barang[0][picture_2]" class="w-full border rounded px-3 py-2" required>
+                            <input type="file" name="barang[0][picture_2]" class="w-full border rounded px-3 py-2">
                         </div>
                     </div>
                 </div>
@@ -81,15 +85,23 @@
 <script>
     let index = 1;
     const vendors = @json($vendors);
+    const identifiers = @json($identifiers);
 
     document.getElementById('add-barang').addEventListener('click', function () {
         const wrapper = document.getElementById('barang-wrapper');
         const newCard = document.createElement('div');
         newCard.classList = 'barang-input bg-[#FBFAF5] p-6 border border-gray-300 rounded-lg shadow relative mt-4';
 
-        let vendorOptions = '<option value="">-- Pilih Vendor --</option>';
+        // Vendor options
+        let vendorOptions = '<option value="" disabled selected>Pilih Vendor</option>';
         vendors.forEach(v => {
             vendorOptions += `<option value="${v.id}">${v.name}</option>`;
+        });
+
+        // Identifier options
+        let identifierOptions = '<option value="" disabled selected>Pilih Identifier</option>';
+        identifiers.forEach(i => {
+            identifierOptions += `<option value="${i}">${i}</option>`;
         });
 
         newCard.innerHTML = `
@@ -105,7 +117,9 @@
                 </div>
                 <div>
                     <label class="block mb-1 text-sm font-medium text-gray-700">Identifier</label>
-                    <input type="text" name="barang[${index}][identifier]" class="w-full border rounded px-3 py-2" required>
+                    <select name="barang[${index}][identifier]" class="w-full border rounded px-3 py-2" required>
+                        ${identifierOptions}
+                    </select>
                 </div>
                 <div>
                     <label class="block mb-1 text-sm font-medium text-gray-700">Vendor</label>
@@ -115,14 +129,15 @@
                 </div>
                 <div>
                     <label class="block mb-1 text-sm font-medium text-gray-700">Foto 1</label>
-                    <input type="file" name="barang[${index}][picture_1]" class="w-full border rounded px-3 py-2" required>
+                    <input type="file" name="barang[${index}][picture_1]" class="w-full border rounded px-3 py-2" >
                 </div>
                 <div>
                     <label class="block mb-1 text-sm font-medium text-gray-700">Foto 2</label>
-                    <input type="file" name="barang[${index}][picture_2]" class="w-full border rounded px-3 py-2" required>
+                    <input type="file" name="barang[${index}][picture_2]" class="w-full border rounded px-3 py-2" >
                 </div>
             </div>
         `;
+
         wrapper.appendChild(newCard);
         index++;
     });
