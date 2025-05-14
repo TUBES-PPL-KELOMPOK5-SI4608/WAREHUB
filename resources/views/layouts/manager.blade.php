@@ -3,15 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-    @if(auth()->user()?->role === 'admin')
-        Admin Gudang
-    @elseif(auth()->user()?->role === 'manager')
-        Manager Gudang
-    @else
-        Manajemen Gudang
-    @endif
-    </title>
+    <title>{{ $title ?? 'Manager Gudang' }}</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -24,22 +17,13 @@
     <div class="flex h-screen">
         <aside class="w-64 bg-[#74512D] text-white flex flex-col p-4">
             <div class="mb-10">
-            <h2 class="text-xl font-bold">
-                @if(auth()->user()?->role === 'manager')
-                    WareHub Manager
-                @else
-                    WareHub
-                @endif
-            </h2>
+                <h2 class="text-xl font-bold">WareHub Manager</h2>
             </div>
             <nav class="space-y-2">
-                @if (auth()->user()?->role === 'manager')
-                    <a href="/audit/auth" class="block py-2 px-4 rounded hover:bg-[#FEBA17] {{ request()->is('audit/auth') ? 'bg-[#FEBA17] font-semibold' : '' }}">Audit Autentikasi</a>
-                    <a href="/audit/in" class="block py-2 px-4 rounded hover:bg-[#FEBA17] {{ request()->is('audit/in') ? 'bg-[#FEBA17] font-semibold' : '' }}">Audit Barang Masuk</a>
-                    <a href="/audit/out" class="block py-2 px-4 rounded hover:bg-[#FEBA17] {{ request()->is('audit/out') ? 'bg-[#FEBA17] font-semibold' : '' }}">Audit Barang Keluar</a>
-                    <br>
-                @endif
-
+                <a href="/audit/auth" class="block py-2 px-4 rounded hover:bg-[#FEBA17] {{ request()->is('audit/auth') ? 'bg-[#FEBA17] font-semibold' : '' }}">Audit Autentikasi</a>
+                <a href="/audit/in" class="block py-2 px-4 rounded hover:bg-[#FEBA17] {{ request()->is('audit/in') ? 'bg-[#FEBA17] font-semibold' : '' }}">Audit Barang Masuk</a>
+                <a href="/audit/out" class="block py-2 px-4 rounded hover:bg-[#FEBA17] {{ request()->is('audit/out') ? 'bg-[#FEBA17] font-semibold' : '' }}">Audit Barang Keluar</a>
+                <br>
                 <a href="/dashboard" class="block py-2 px-4 rounded hover:bg-[#FEBA17] {{ request()->is('dashboard') ? 'bg-[#FEBA17] font-semibold' : '' }}">🏠 Dashboard</a>
                 <a href="{{ route('barangs.index') }}" class="block py-2 px-4 rounded hover:bg-[#FEBA17] {{ request()->is('barangs*') ? 'bg-[#FEBA17] font-semibold' : '' }}">📦 Inventory</a>
                 <a href="/barang/out" class="block py-2 px-4 rounded hover:bg-[#FEBA17] {{ request()->is('barang/out') ? 'bg-[#FEBA17] font-semibold' : '' }}">📤 Barang Keluar</a>
@@ -57,9 +41,7 @@
             </div>
         </aside>
 
-        <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden">
-            <!-- Header -->
             <header class="bg-[#74512D] text-white px-6 py-4 shadow flex justify-between items-center">
                 <h1 class="text-lg font-semibold">Halo, {{ $user->username ?? 'Pengguna' }}</h1>
                 <div class="space-x-5">
@@ -70,6 +52,7 @@
                 </div>
             </header>
 
+            <!-- Scrollable Content -->
             <main class="flex-1 overflow-y-auto p-6">
                 @yield('content')
             </main>
@@ -89,7 +72,6 @@
         setInterval(updateTime, 1000);
     </script>
 
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     @stack('scripts')
