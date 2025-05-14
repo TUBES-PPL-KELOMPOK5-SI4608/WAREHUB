@@ -107,7 +107,7 @@ function openEditModal(item) {
     document.getElementById('modal-item-picture-1-img').src = item.picture_1 ? "/storage/" + item.picture_1 : "";
     document.getElementById('modal-item-picture-2-img').src = item.picture_2 ? "/storage/" + item.picture_2 : "";
 
-    document.getElementById('edit-barang-form').action = "/admin/barang/defect/update/" + item.id;
+    document.getElementById('edit-barang-form').action = "/barang/defect/update/" + item.id;
 
     document.getElementById('edit-modal').classList.remove('hidden');
 }
